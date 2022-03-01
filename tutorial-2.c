@@ -1,11 +1,11 @@
-#include <Python.h>
 #include <stdio.h>
+#include <Python.h>
 
 int main(int argc, char* argv[])
 {
     Py_Initialize();
     PyObject* sysPath = PySys_GetObject((char*) "path");
-    PyList_Append(sysPath, PyString_FromString("."));
+    PyList_Append(sysPath, PyUnicode_FromString("."));
 
     printf("Input two integers separated by space:\n");
     int a, b;
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
         pValue = PyObject_Call(pFunc, pArgs, NULL);
         if (pValue == NULL) break;
-        printf("Result of call: %ld\n", PyInt_AsLong(pValue));
+        printf("Result of call: %ld\n", PyLong_AsLong(pValue));
     } while (0);
 
     Py_XDECREF(pValue);

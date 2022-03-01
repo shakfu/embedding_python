@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 {
     Py_Initialize();
     PyObject* sysPath = PySys_GetObject((char*) "path");
-    PyList_Append(sysPath, PyString_FromString("."));
+    PyList_Append(sysPath, PyUnicode_FromString("."));
 
     printf("Input two integers separated by space:\n");
     int a, b;

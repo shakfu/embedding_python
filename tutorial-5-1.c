@@ -32,10 +32,22 @@ PyMODINIT_FUNC PyInit_cmodule(void)
 
 int main(int argc, char* argv[])
 {
+    wchar_t *program = Py_DecodeLocale(argv[0], NULL);
+    if (program == NULL) {
+        fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
+        exit(1);
+    }
 
+    /* Add a built-in module, before Py_Initialize */
     PyImport_AppendInittab("cmodule", PyInit_cmodule);
 
+    /* Pass argv[0] to the Python interpreter */
+    Py_SetProgramName(program);
+
+    /* Initialize the Python interpreter.  Required. */
     Py_Initialize();
+
+
     PyObject* sysPath = PySys_GetObject((char*) "path");
     PyList_Append(sysPath, PyUnicode_FromString("."));
 
@@ -63,5 +75,7 @@ int main(int argc, char* argv[])
     Py_XDECREF(pModule);
 
     Py_Finalize();
+
+    PyMem_RawFree(program);
     return 0;
 }
