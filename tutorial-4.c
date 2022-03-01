@@ -36,12 +36,11 @@ void* run_python_function(void* arg)
 
 int main(int argc, char* argv[])
 {
-    PyEval_InitThreads();
     Py_Initialize();
     PyObject* sysPath = PySys_GetObject((char*) "path");
     PyList_Append(sysPath, PyUnicode_FromString("."));
 
-    PyThreadState* save = PyEval_SaveThread();
+    Py_BEGIN_ALLOW_THREADS;
 
     pthread_t tid1, tid2;
     char* tname1 = "worker1";
@@ -61,7 +60,8 @@ int main(int argc, char* argv[])
 
     printf("finish\n");
 
-    PyEval_RestoreThread(save);
+    Py_END_ALLOW_THREADS;
+    
     Py_Finalize();
 
     pthread_exit(NULL);

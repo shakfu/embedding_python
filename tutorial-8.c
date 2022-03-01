@@ -15,11 +15,11 @@ static PyObject* callback2(PyObject* self, PyObject* args)
     PyArg_ParseTuple(args, "s", &str);
     printf("%s blocking start\n", str);
 
-    PyThreadState* save = PyEval_SaveThread();
+    Py_BEGIN_ALLOW_THREADS;
     {
         sleep(5);
     }
-    PyEval_RestoreThread(save);
+    Py_END_ALLOW_THREADS
 
     printf("%s blocking end\n", str);
 
@@ -28,15 +28,15 @@ static PyObject* callback2(PyObject* self, PyObject* args)
 
 int main(int argc, char* argv[])
 {
-    PyEval_InitThreads();
     Py_Initialize();
     PyObject* sysPath = PySys_GetObject((char*) "path");
     PyList_Append(sysPath, PyUnicode_FromString("."));
 
-    PyThreadState* save = PyEval_SaveThread();
-
     PyObject *pCallback1Func = NULL, *pCallback2Func = NULL;
     PyObject *pModule = NULL, *pClass = NULL, *pInst = NULL, *pArgs = NULL;
+
+    Py_BEGIN_ALLOW_THREADS;
+
     do
     {
         PyGILState_STATE state = PyGILState_Ensure();
@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
         printf("finish\n");
     } while (0);
 
-    PyEval_RestoreThread(save);
+    Py_END_ALLOW_THREADS;
 
     Py_XDECREF(pCallback1Func);
     Py_XDECREF(pCallback2Func);

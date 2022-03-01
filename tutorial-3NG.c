@@ -3,7 +3,6 @@
 
 int main(int argc, char* argv[])
 {
-    PyEval_InitThreads();
     Py_Initialize();
     PyObject* sysPath = PySys_GetObject((char*) "path");
     PyList_Append(sysPath, PyUnicode_FromString("."));

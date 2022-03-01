@@ -9,11 +9,11 @@ class WorkerThread(threading.Thread):
 
     def run(self):
         while not self.stop_event.is_set():
-            print self.name, "is working"
+            print(self.name, "is working")
             time.sleep(1)
 
     def stop(self):
-        print self.name, "stop"
+        print(self.name, "stop")
         self.stop_event.set()
 
 
