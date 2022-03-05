@@ -22,3 +22,6 @@ clean:
 	@$(RM) $(EXECUTABLES)
 	@$(RM) -rf *.dSYM
 	@$(RM) -rf __pycache__
+	@$(RM) -rf infer-out
+
+

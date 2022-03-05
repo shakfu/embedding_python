@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-infer run -- gcc `python3-config --cflags` -o demo `python3-config --ldflags` -lpython3.9  $1
+OUTFILE=__demo
 
-#infer run -- gcc `python3-config --cflags` -o demo `python3-config --ldflags` -lpython3.9  tutorial-8NG.c
+infer run -- gcc `python3-config --cflags` -o $OUTFILE `python3-config --ldflags` -lpython3.9  $1
+
+rm -f $OUTFILE
+
