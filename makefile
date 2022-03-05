@@ -15,6 +15,9 @@ all: $(EXECUTABLES)
 %: %.c
 	@$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS) 
 
+analyze:
+	@infer run -- make
+
 clean:
 	@$(RM) $(EXECUTABLES)
 	@$(RM) -rf *.dSYM
